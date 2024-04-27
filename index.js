@@ -35,7 +35,6 @@ async function run() {
 
     // Add Art and Craft information in database (Using post method)
     app.post("/artsandcrafts", async (req, res) => {
-      //   console.log(req.body);
       const newArtAndCraft = req.body;
       const result = await Art_And_Craft_Collection.insertOne(newArtAndCraft);
       res.send(result);
@@ -46,7 +45,6 @@ async function run() {
       const userData = req.body;
       const result = await usersCollection.insertOne(userData);
       res.send(result);
-      // console.log(userData);
     });
     // Get all the art and craft information from database
 
@@ -67,10 +65,7 @@ async function run() {
     app.put("/updateArtCraft/:id", async (req, res) => {
       const id = req.params.id;
       const updatedDataOfArtAndCraft = req.body;
-      // console.log(
-      //   updatedDataOfArtAndCraft.customization,
-      //   updatedDataOfArtAndCraft.inStock
-      // );
+      
       const filter = { _id: new ObjectId(id) };
       const options = { upsert: true };
       const updatedArtAndCraft = {
@@ -98,7 +93,6 @@ async function run() {
 
     app.delete("/update/:id", async (req, res) => {
       const id = req.params.id;
-      // console.log(id);
       const query = { _id: new ObjectId(id) };
       const result = await Art_And_Craft_Collection.deleteOne(query);
       res.send(result);
