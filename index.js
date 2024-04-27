@@ -67,8 +67,31 @@ async function run() {
     app.put("/updateArtCraft/:id", async (req, res) => {
       const id = req.params.id;
       const updatedDataOfArtAndCraft = req.body;
-      // console.log(id, updatedDataOfArtAndCraft);
-      
+      // console.log(
+      //   updatedDataOfArtAndCraft.customization,
+      //   updatedDataOfArtAndCraft.inStock
+      // );
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updatedArtAndCraft = {
+        $set: {
+          item_name: updatedDataOfArtAndCraft.item_name,
+          subcategory: updatedDataOfArtAndCraft.subcategory,
+          description: updatedDataOfArtAndCraft.description,
+          price: updatedDataOfArtAndCraft.price,
+          rating: updatedDataOfArtAndCraft.rating,
+          photo: updatedDataOfArtAndCraft.photo,
+          processingTime: updatedDataOfArtAndCraft.processingTime,
+          customization: updatedDataOfArtAndCraft.customization,
+          inStock: updatedDataOfArtAndCraft.inStock,
+        },
+      };
+      const result = await Art_And_Craft_Collection.updateOne(
+        filter,
+        updatedArtAndCraft,
+        options
+      );
+      res.send(result);
     });
 
     // Delete an Art or Craft using unique _id
