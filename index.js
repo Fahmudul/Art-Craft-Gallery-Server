@@ -31,6 +31,7 @@ async function run() {
     const Art_And_Craft_Collection = client
       .db("ArtAndCraft")
       .collection("ArtAndCraftItems");
+    const usersCollection = client.db("ArtAndCraft").collection("UsersData");
 
     // Add Art and Craft information in database (Using post method)
     app.post("/artsandcrafts", async (req, res) => {
@@ -39,7 +40,14 @@ async function run() {
       const result = await Art_And_Craft_Collection.insertOne(newArtAndCraft);
       res.send(result);
     });
+    // Get user data from client side and add user data in database
 
+    app.post("/user", async (req, res) => {
+      const userData = req.body;
+      const result = await usersCollection.insertOne(userData);
+      res.send(result);
+      // console.log(userData);
+    });
     // Get all the art and craft information from database
 
     app.get("/artsandcrafts", async (req, res) => {
@@ -53,6 +61,15 @@ async function run() {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await Art_And_Craft_Collection.findOne(query);
+      res.send(result);
+    });
+    // Delete an Art or Craft using unique _id
+
+    app.delete("/update/:id", async (req, res) => {
+      const id = req.params.id;
+      // console.log(id);
+      const query = { _id: new ObjectId(id) };
+      const result = await Art_And_Craft_Collection.deleteOne(query);
       res.send(result);
     });
     console.log(
