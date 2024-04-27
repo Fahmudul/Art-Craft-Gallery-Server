@@ -63,6 +63,14 @@ async function run() {
       const result = await Art_And_Craft_Collection.findOne(query);
       res.send(result);
     });
+    // Update an Art and Craft
+    app.put("/updateArtCraft/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatedDataOfArtAndCraft = req.body;
+      // console.log(id, updatedDataOfArtAndCraft);
+      
+    });
+
     // Delete an Art or Craft using unique _id
 
     app.delete("/update/:id", async (req, res) => {
