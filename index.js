@@ -32,6 +32,9 @@ async function run() {
       .db("ArtAndCraft")
       .collection("ArtAndCraftItems");
     const usersCollection = client.db("ArtAndCraft").collection("UsersData");
+    const SubCategoryArtAndCraftCollection = client
+      .db("ArtAndCraft")
+      .collection("SubCategoryArtAndCraft");
 
     // Add Art and Craft information in database (Using post method)
     app.post("/artsandcrafts", async (req, res) => {
@@ -54,6 +57,27 @@ async function run() {
       res.send(result);
     });
 
+    // Get subcategory data from database
+    app.get("/subcategory", async (req, res) => {
+      const cursor = SubCategoryArtAndCraftCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+    // Get All data that matched a Subcategory from database
+    app.get("/artsandcrafts/:subcategory", async (req, res) => {
+      const subcategory = req.params.subcategory;
+      const query = { subcategory: subcategory };
+      const cursor = Art_And_Craft_Collection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+    // Get single Subcategory data from database
+    app.get("/subcategory/:subcategory", async (req, res) => {
+      const subcategory = req.params.subcategory;
+      const query = { subcategory: subcategory };
+      const result = await SubCategoryArtAndCraftCollection.findOne(query);
+      res.send(result);
+    });
     // Get single data from database
     app.get("/artsandcrafts/:id", async (req, res) => {
       const id = req.params.id;
@@ -65,7 +89,7 @@ async function run() {
     app.put("/updateArtCraft/:id", async (req, res) => {
       const id = req.params.id;
       const updatedDataOfArtAndCraft = req.body;
-      
+
       const filter = { _id: new ObjectId(id) };
       const options = { upsert: true };
       const updatedArtAndCraft = {
