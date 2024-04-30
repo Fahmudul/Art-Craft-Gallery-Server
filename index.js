@@ -56,6 +56,11 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
+    app.get("/artsandcraftsSBC", async (req, res) => {
+      const cursor = Art_And_Craft_Collection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
 
     // Get subcategory data from database
     app.get("/subcategory", async (req, res) => {
@@ -64,8 +69,9 @@ async function run() {
       res.send(result);
     });
     // Get All data that matched a Subcategory from database
-    app.get("/artsandcrafts/:subcategory", async (req, res) => {
+    app.get("/artsandcraftsSBC/:subcategory", async (req, res) => {
       const subcategory = req.params.subcategory;
+      // console.log(subcategory);
       const query = { subcategory: subcategory };
       const cursor = Art_And_Craft_Collection.find(query);
       const result = await cursor.toArray();
@@ -74,6 +80,7 @@ async function run() {
     // Get single Subcategory data from database
     app.get("/subcategory/:subcategory", async (req, res) => {
       const subcategory = req.params.subcategory;
+      // console.log(subcategory);
       const query = { subcategory: subcategory };
       const result = await SubCategoryArtAndCraftCollection.findOne(query);
       res.send(result);
@@ -81,8 +88,10 @@ async function run() {
     // Get single data from database
     app.get("/artsandcrafts/:id", async (req, res) => {
       const id = req.params.id;
+      // console.log(id);
       const query = { _id: new ObjectId(id) };
       const result = await Art_And_Craft_Collection.findOne(query);
+      // console.log(result);
       res.send(result);
     });
     // Update an Art and Craft
