@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Hello From Art And Craft Server!");
 });
 // MongoDB functionalities
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.nkzn5jr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
@@ -71,7 +71,6 @@ async function run() {
     // Get All data that matched a Subcategory from database
     app.get("/artsandcraftsSBC/:subcategory", async (req, res) => {
       const subcategory = req.params.subcategory;
-      // console.log(subcategory);
       const query = { subcategory: subcategory };
       const cursor = Art_And_Craft_Collection.find(query);
       const result = await cursor.toArray();
@@ -80,7 +79,6 @@ async function run() {
     // Get single Subcategory data from database
     app.get("/subcategory/:subcategory", async (req, res) => {
       const subcategory = req.params.subcategory;
-      // console.log(subcategory);
       const query = { subcategory: subcategory };
       const result = await SubCategoryArtAndCraftCollection.findOne(query);
       res.send(result);
@@ -88,10 +86,8 @@ async function run() {
     // Get single data from database
     app.get("/artsandcrafts/:id", async (req, res) => {
       const id = req.params.id;
-      // console.log(id);
       const query = { _id: new ObjectId(id) };
       const result = await Art_And_Craft_Collection.findOne(query);
-      // console.log(result);
       res.send(result);
     });
     // Update an Art and Craft
